@@ -1,0 +1,41 @@
+{
+  "name": "smart-modularity-fis3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "jshint .",
+    "release": "fis3 release",
+    "watch": "fis3 release -wcLl",
+    "server-open": "fis3 server open",
+    "server-start": "fis3 server start",
+    "server-stop": "fis3 server stop",
+    "server-clean": "fis3 server clean",
+    "build-prod": "fis3 release prod",
+    "build-zip": "fis3 release zip"
+  },
+  "author": "gisonyang",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "fis-parser-node-sass": "^1.0.1",
+    "fis-parser-swig2": "^1.0.4",
+    "fis3-deploy-skip-packed": "0.0.5",
+    "fis3-deploy-zip": "^2.0.0",
+    "fis3-hook-module": "^1.2.2",
+    "fis3-postpackager-loader": "^2.1.4",
+    "fis3-preprocessor-autoprefixer": "^0.1.1",
+    "node-sass": "^4.5.3",
+    "precommit-hook": "^3.0.0",
+    "sass-loader": "^6.0.6"
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ],
+  "dependencies": {
+    "fis3": "^3.4.34"
+  }
+}

@@ -1,0 +1,11 @@
+.SCOPE {
+    margin: 0 auto;
+    background-color: #000;
+
+    &_content {
+    	background-color: red;
+    	border-radius: 2px;
+    	transition: all 0.1s;
+    	transform: translate(0,0);
+    }
+}

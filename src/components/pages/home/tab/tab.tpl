@@ -1,0 +1,1 @@
+<div class="SCOPE">tab component</div>

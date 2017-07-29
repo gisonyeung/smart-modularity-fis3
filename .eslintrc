@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "__inline": true,
+    "__uri": true,
+    "SCOPE": true,
+    "$": true,
+    "Vue": true,
+    "define": true,
+    "globalConfig": true,
+    "notifyLoginState": true,
+    "start_time": true,
+    "fis": true
+  },
+  "rules": {
+    // 一般规则
+    "no-undef": "error",
+    "no-dupe-args": "error",  // function (arg1, arg1)
+    "no-dupe-keys": "error",  // { key1: "value1", key1: "value2" }
+    "no-duplicate-case": "error",  // case 1: case 1:
+    "no-constant-condition": "error",  // if (true)
+    "no-debugger": "error",
+    "no-func-assign": "error",  // foo = 0; function foo () {}
+    "no-invalid-regexp": "error",  // /[/
+    "no-unreachable": "error",  // return; console.log("unreachable")
+    "use-isnan": "error",
+    "valid-typeof": "error",  // typeof foo === "strin"
+    "no-self-assign": "error",  // foo = foo
+    "no-self-compare": "error",  // foo === foo
+    "no-unmodified-loop-condition": "error",  // for (var i = 0; i < 10; j++)
+    "no-shadow-restricted-names": "error",  // var Date
+    "no-sparse-arrays": "error",  // [1, , 2]
+    "no-unexpected-multiline": "error",
+    "no-unsafe-finally": "error",
+    "no-octal-escape": "error",  // "\101" === "A"
+    "no-octal": "error"  // 010 === 8
+  }
+}
