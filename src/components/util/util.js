@@ -20,18 +20,18 @@ var qs = (function (search) {
 })(location.search);
 exports.qs = qs;
 
-var loadScript = (src, cb) => {
-    var script = document.createElement('script');
-    script.src = src;
+// var loadScript = (src, cb) => {
+//     var script = document.createElement('script');
+//     script.src = src;
 
-    script.onload = function () {
-        cb();
-    };
+//     script.onload = function () {
+//         cb();
+//     };
 
-    script.onerror = function (err) {
-        cb(err);
-    }
+//     script.onerror = function (err) {
+//         cb(err);
+//     }
 
-    document.body.appendChild(script);
-}
-exports.loadScript = loadScript;
+//     document.body.appendChild(script);
+// }
+// exports.loadScript = loadScript;

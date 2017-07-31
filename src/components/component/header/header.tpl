@@ -1,1 +1,1 @@
-<div class="SCOPE">header component</div>
+<nav class="SCOPE"></nav>

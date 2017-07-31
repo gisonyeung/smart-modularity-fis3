@@ -11,15 +11,15 @@
         var t0 = Date.now();
         window._timePoints = [t0];
     </script><!--ignore-->
-    <link rel="stylesheet" href="../layout/layout.scss">
+    <link rel="stylesheet" href="./layout/layout.scss">
     {% block style %}{% endblock %}
   </head>
   <body>
     {% block content %}{% endblock %}
     <script type="text/javascript">window._timePoints[1] = Date.now();</script><!--ignore-->
-    <script src="../../lib/mod/mod.js"></script>
-    <script src="../../lib/zepto/zepto.js"></script>
-    <script src="../../lib/vue/vue.js"></script>
+    <script src="../lib/mod/mod.js"></script>
+    <script src="../lib/zepto/zepto.js"></script>
+    <script src="../lib/vue/vue.js"></script>
     {% block script %}{% endblock %}
   </body>
 </html>

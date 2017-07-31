@@ -1,0 +1,16 @@
+$themeColor: #13bbfa;
+
+@mixin transition($obj: all, $time: 0.2s, $type: ease-out) {
+    transition: $obj $time $type;
+    -moz-transition: $obj $time $type;  
+    -webkit-transition: $obj $time $type;   
+    -o-transition: $obj $time $type;
+}
+
+.clearfix {
+    &:before, &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}

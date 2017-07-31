@@ -1,3 +1,7 @@
+/*
+ * eslint 规则配置
+ * created by gisonyang on 2017/07/29
+ */
 var config = require('./lint/config');
 
 module.exports = function (content, file, settings) {

@@ -1,5 +1,11 @@
 .SCOPE {
-	background: #000;
-	color: #fff;
-	text-align: centerl
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 65px;
+	background: url('../../image/imlogo.png') center center no-repeat;
+    background-size: auto 42px;
+    overflow: hidden;
+    background-color: #13bbfa;
 }
