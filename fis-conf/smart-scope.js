@@ -3,7 +3,7 @@
  * created by gisonyang on 2017/07/27
  */
 
-var componentsRe = new RegExp('^components\\/')
+var componentsRe = new RegExp('^src\[\\/\|\\\\]components\[\\/\|\\\\]')
 var scopePlaceholder = fis.get('scope-placeholder')
 var scopePlaceholderRe = new RegExp(scopePlaceholder, 'g')
 

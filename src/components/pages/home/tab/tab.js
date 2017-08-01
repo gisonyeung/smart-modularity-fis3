@@ -1,8 +1,8 @@
 module.exports = Vue.extend({
     template: __inline('./tab.tpl'),
+    props: ['activePanel'],
     data: function() {
         return {
-            activeIndex: 1,
             items: [
                 { key: 1, name: '看点' },
                 { key: 2, name: '视频' },
@@ -13,7 +13,7 @@ module.exports = Vue.extend({
     },
     methods: {
         toggleTab(key) {
-            this.activeIndex = key;
+            window.vBus.$emit('togglePanel', key);
         },
     }
 });

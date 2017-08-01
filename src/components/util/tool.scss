@@ -7,7 +7,7 @@ $themeColor: #13bbfa;
     -o-transition: $obj $time $type;
 }
 
-.clearfix {
+%clearfix {
     &:before, &:after {
         content: '';
         display: table;

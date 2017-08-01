@@ -1,10 +1,10 @@
 .SCOPE {
-    margin: 0 auto;
-    padding-top: 65px;
+  margin: 0 auto;
+  padding-top: 65px;
 
-    &_content {
-        border-radius: 2px;
-        transition: all 0.1s;
-        transform: translate(0,0);
-    }
+  &_content {
+    border-radius: 2px;
+    transition: all 0.1s;
+    transform: translate(0,0);
+  }
 }

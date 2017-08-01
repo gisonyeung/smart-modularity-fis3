@@ -1,22 +1,27 @@
 var _ = require('../../util/util');
 var header = require('../../component/header/header');
+var empty = require('../../component/empty/empty');
 var tab = require('./tab/tab');
-
 
 exports.init = function (el) {
 
-	new Vue({
+    window.vBus = new Vue();
+
+    new Vue({
         el: el,
         template: __inline('./home.tpl'),
         data: {
-            uin: 'uin',
+            activePanel: 1,
         },
         components: {
             'v-header': header,
-            'v-tab': tab
+            'v-tab': tab,
+            'v-empty': empty,
         },
-        ready: function () {
-            alert('[vue]:ready')
+        created: function () {
+            window.vBus.$on('togglePanel', (key) => {
+                this.activePanel = key;
+            });
         }
     });
 

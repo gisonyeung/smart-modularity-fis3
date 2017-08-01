@@ -78,6 +78,10 @@ fis.match('*.scss', {
     // .scss 文件后缀构建后被改成 .css 文件
     rExt: '.css',
 });
+// 不产出 util 中的css
+fis.match('src/components/util/*.scss', {
+    release: false
+})
 
 // component组件资源id支持简写
 fis.match(/^\/src\/components\/(component|pages|util)\/(.*)$/i, {
@@ -100,11 +104,6 @@ fis.match('*.js', {
 fis.match('(*).{png,jepg,jpg,webp,gif}', {
     release: `/${release_config.child.static}/image/$1$2`
 });
-
-// 将 lib 中的js全部打包到一个文件中
-// fis.match('src/views/lib/**/**.js', {
-//     packTo: `/${release_config.child.static}/pkg/lib.bundle.js`
-// });
 
 fis.match('::packager', {
     // npm install [-g] fis3-postpackager-loader
@@ -189,9 +188,10 @@ function release_pipe(head) {
         .match('::packager', {
             // npm install [-g] fis3-postpackager-loader
             // 分析 __RESOURCE_MAP__ 结构，来解决资源加载问题
+            // API: https://github.com/fex-team/fis3-postpackager-loader
             postpackager: fis.plugin('loader', {
                 resourceType: 'mod',
-                useInlineMap: true, // 资源映射表内嵌
+                useInlineMap: true, // 异步依赖时，资源映射表内嵌
                 // 将每个页面中除 lib.bundle 以外的文件打包
                 allInOne: {
                     js: function(file) {
@@ -199,7 +199,8 @@ function release_pipe(head) {
                     },
                     css: function(file) {
                         return `/${release_config.child.static}/css/${file.filename}_aio.css`;
-                    }
+                    },
+                    includeAsyncs: true, // 打包异步依赖
                 }
             }),
             packager: fis.plugin('map'),
