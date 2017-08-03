@@ -81,7 +81,7 @@ $ npm run watch
 // 或
 $ fis3 release -wclL
 ```
-四个指令分别代表：`w`=>`watch`，`c`=>`clean`，`l`=>`lint`，`L`=>'livereload'。
+四个指令分别代表：`w`=>`watch`，`c`=>`clean`，`l`=>`lint`，`L`=>`livereload`。
 
 ## 开发流程及构建原理介绍
 我们的页面组件基于 Vue 组件构建。
