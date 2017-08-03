@@ -1,5 +1,5 @@
 # smart-modularity-fis3
-一个基于 FIS3 与 Vue、关注开发过程与开发体验提升的多页面模块化构建方案。
+一个基于 FIS3 与 Vue，关注开发过程提升开发体验的多页面模块化构建方案。
 
 该构建方案依赖于 FIS3 构建工具，如需了解更多 FIS3 信息，请访问 [FIS3 官网](https://fex.baidu.com/fis3/)
 
@@ -60,8 +60,12 @@ smart-modularity-fis3
 ├── fis-conf.js // fis3 配置文件
 └── package.json
 ```
-`src/components`：存放 vue 组件文件。
-`src/views`：存放视图模板文件。
+* `fis-conf`：存放 FIS3 相关的配置文件
+* `src/components`：存放 vue 组件文件。
+* `src/components/component`：存放全局组件。
+* `src/components/pages`：存放页面入口组件与页面私有组件。
+* `src/components/util`：存放组件通用的工具文件，如` util.js`、`tool.scss`。
+* `src/views`：存放视图模板文件。
 
 ## 开发构建命令
 开启静态服务器：
@@ -254,9 +258,11 @@ module.exports = Vue.extend({
 }
 ```
 页面引入组件后，视觉效果与 DOM 片段如下：
+
 ![](https://github.com/gisonyeung/smart-modularity-fis3/raw/master/screenshots/demo1.png)
 
 DOM：
+
 ![](https://github.com/gisonyeung/smart-modularity-fis3/raw/master/screenshots/demo2.png)
 
 SCSS 文件会自动依赖到同名 vue 组件中，而文件中的 SCOPE 占位符会被自动替换成以组件 ID 为标识的字符串。
@@ -287,6 +293,7 @@ fis.match('(*).{png,jepg,jpg,webp,gif}', {
 });
 ```
 在最后构建出来的 HTML 文件中，对这个图片的资源引用就会自动被修改：
+
 ![](https://github.com/gisonyeung/smart-modularity-fis3/raw/master/screenshots/demo3.png)
 
 引用 FIS3 官网上对于资源定位的一段介绍：
@@ -297,6 +304,7 @@ fis.match('(*).{png,jepg,jpg,webp,gif}', {
 在资源定位能力的基础上，FIS3 让我们可以很方便地根据需求做一些资源合并、资源压缩和 hash 操作。例如，我们可以规定当前页面上全部或部分`css`与`js`文件各自合并成一个 bundle，在规定 bundle 产出路径以后，FIS3 会自动替换掉页面上对于这些文件的引用。
 
 例如，在开发环境下，我们的 HTML 文件引用如下：
+
 ![](https://github.com/gisonyeung/smart-modularity-fis3/raw/master/screenshots/demo4.png)
 
 我们目前在缓存粒度和 HTTP 请求数两者的折衷中做的打包方案是：每个页面通用的几个 lib 文件打包成一个 lib.bundle，其他文件以页面为纬度按文件类型打包。
@@ -335,6 +343,7 @@ fis3.match('src/views/lib/**/**.js', {
 ```
 
 最后，看到生产环境的 HTML 页面引用如下：
+
 ![](https://github.com/gisonyeung/smart-modularity-fis3/raw/master/screenshots/demo5.png)
 
 
@@ -343,34 +352,29 @@ fis3.match('src/views/lib/**/**.js', {
 2. CSS3 Autoprefixer。CSS3 浏览器前缀自动补全，这是依靠插件实现的功能，我们书写 CSS3 时就不再需要手动去查 CSS3 hack。
 3. Node 端同构直出。Node 端目前没有做，因为小组当前的业务暂时没有架设代理服务器。但是这个构建方案是对同构直出友好的，我们只需要在 Node 端渲染模板，在 HTML 主模块的 init 函数中传入 vue 组件初始化时需要的 data，就可以完成直出渲染，客户端拿到 HTML 时无须再请求这些数据，省去几次 HTTP 来回。
 
-# 为什么选用 FIS3，不选用目前主流的 Webpack？
+## QA：为什么选用 FIS3，不选用目前主流的 Webpack？
 
-## 两者的定位与理念的差异
-Webpack：Webpack 的定位是“模块打包器”，我们可以通过定义 entry js 文件，然后对该 entry 所有依赖的文件进行跟踪，再通过一些 loader 和 plugins 对依赖进行处理，然后打包在一起。打包过程中，可以将文件分为多个 chunks，或者提取公共文件提取出来作为 commonChunk。在 Webpack 里，一切根据 entry js 进行处理，其他的 css、图片等等都是附属品。可以说，它在单页应用和类库打包方面的确使用非常方便。但是一到了多页应用，不管你如何 chunk，总不能真正达到按需加载的地步，你往往要去考虑如何提取公共文件才能达到最优状态。
+### 两者的定位与理念的差异
+`Webpack`：Webpack 的定位是“模块打包器”，我们可以通过定义 entry js 文件，然后对该 entry 所有依赖的文件进行跟踪，再通过一些 loader 和 plugins 对依赖进行处理，然后打包在一起。打包过程中，可以将文件分为多个 chunks，或者提取公共文件提取出来作为 commonChunk。在 Webpack 里，一切根据 entry js 进行处理，其他的 css、图片等等都是附属品。可以说，它在单页应用和类库打包方面的确使用非常方便。但是一到了多页应用，不管你如何 chunk，总不能真正达到按需加载的地步，你往往要去考虑如何提取公共文件才能达到最优状态。
 
-FIS3：看完 FIS3 的文档就会明白，FIS3 是真正从前端工程化的角度设计的，而不仅仅是一个打包工具。在整个配置过程中，FIS3 并没有 entry 的概念，我们可以规定任何资源的产出路径，构建流程不限于根据 JS 进行，而是会去分析每一个文件的依赖关系，然后会生成一个项目资源表`sourceMap`，资源表记录了每一个文件的依赖关系，发布前的位置，发布后的去向。这也是 Webpack 缺少的功能。
+`FIS3`：看完 FIS3 的文档就会明白，FIS3 是真正从前端工程化的角度设计的，而不仅仅是一个打包工具。在整个配置过程中，FIS3 并没有 entry 的概念，我们可以规定任何资源的产出路径，构建流程不限于根据 JS 进行，而是会去分析每一个文件的依赖关系，然后会生成一个项目资源表`sourceMap`，资源表记录了每一个文件的依赖关系，发布前的位置，发布后的去向。这也是 Webpack 缺少的功能。
 
-## Webpack 的构建流程难以满足方案预期目标
+### Webpack 的构建流程难以满足方案预期目标
 实际上，我们是基于这套构建方案才选择了 FIS3，而不是针对 FIS3 去制定的这套构建方案。
 
 我们方案成型初期的构建思路是：
-① 利用模板生成目标 HTML。
 
-② 生成 HTML 以后，HTML 不需要直接对页面入口 vue 组件的 js 进行引用，而是希望依靠构建工具帮我们做这件事情。
-
-③ 每个 vue 组件的三类文件（js`、`scss`、`tpl`）在引用关系上，应该是一个整体，在开发时我们不需要为了实现关注点分离而额外去做一些依赖操作（可以注意到，目前每个组件的`scss`文件是在构建时自动应用到组件上的）。
-
-④ 实现组件智能命名空间（smart scope）。这就意味着，我们要去遍历`components`中的每一个 vue 组件文件，根据组件路径替换 SCOPE 占位符。
-
-⑤ 按需加载组件模块，高度自定义打包规则。
+1. 利用模板生成目标 HTML。
+2. 生成 HTML 以后，HTML 不需要直接对页面入口 vue 组件的 js 进行引用，而是希望依靠构建工具帮我们做这件事情。
+3. 每个 vue 组件的三类文件（`js`、`scss`、`tpl`）在引用关系上，应该是一个整体，在开发时我们不需要为了实现关注点分离而额外去做一些依赖操作（可以注意到，目前每个组件的`scss`文件是在构建时自动应用到组件上的）。
+4. 实现组件智能命名空间（smart scope）。这就意味着，我们要去遍历`components`中的每一个 vue 组件文件，根据组件路径替换 SCOPE 占位符。
+5.按需加载组件模块，高度自定义打包规则。
 
 我们首选的构建工具当然是主流的 Webpack，但反复探索以后发现很难借助 Webpack 实现预期目标。
 
-Webpack 的构建流程总的来说就是，根据 entry 为入口，搜集依赖的过程中对这些依赖应用各种 loaders，同时也通过各种 plugins 进行辅助打包。
+Webpack 的构建流程总的来说就是，根据 entry 为入口，搜集依赖的过程中对这些依赖应用各种 loaders，同时也通过各种 plugins 进行辅助打包。这个构建流程其实跟 ②、③、④ 点的实现有冲突。
 
-这个构建流程其实跟 ②、③、④ 点的实现有冲突。
-
-先说第②点，Webpack 是需要指定 entry 文件作为入口的，我们在做完模板编译的工作后，此时相应 js 的依赖关系其实是断裂的，因为我们的目标预期是省去对组件 js 多余的引用操作并且在需要用到这个组件时，构建工具会自动把该组件的 js 文件链入到 HTML 中。所以为了实现这点需求，我们还需要另开 entry 任务去打包对应的 vue 组件，最后，我们还需想办法将组件 JS 的引用添加到 HTML 中。这样一来，如果坚持使用 Webpack 作为构建工具的话，整个构建逻辑就会变得复杂起来...
+先说第②点，Webpack 是需要指定 entry 文件作为入口的，我们在做完模板编译的工作后，此时相应 js 的依赖关系其实是断裂的，因为我们的目标预期是省去对组件 js 多余的引用操作并且在需要用到这个组件时，依靠构建工具帮助我们把该组件的 js 文件链入到 HTML 中。所以为了实现这点需求，我们还需要另开 entry 任务去打包对应的 vue 组件，最后，我们还需想办法将组件 JS 的引用添加到 HTML 中。这样一来，如果坚持使用 Webpack 作为构建工具的话，整个构建逻辑就会变得复杂起来...
 
 对第③点来说，其实也是依赖关系断裂的问题，Webpack entry 的理念与我们的预期目标格格不入。
 
@@ -382,7 +386,7 @@ Webpack 的构建流程总的来说就是，根据 entry 为入口，搜集依�
 
 FIS3 实际上还有更多前沿的理念，都非常吸引我，感兴趣的同学可以去 FIS3 官网中了解。
 
-## FIS3 的不足
+### FIS3 的不足
 FIS3 之所以火热程度不高，肯定有它不好的地方，这也是我们这个构建方案需要关注的。
 
 1. 与 Webpack 相比，FIS3 生态惨淡。Webpack 使用广泛，社区非常火热，各种热门框架在 Webpack 都有其插件实现，而有些框架在 FIS3 就不一定有实现。这是一个团队技术选型时需要考虑的，这个框架/工具可不可靠，在未来有可能实现的某些场景时会不会有坑？一些大型项目更加在意这一点。
@@ -392,4 +396,4 @@ FIS3 之所以火热程度不高，肯定有它不好的地方，这也是我们
 总的来说，就是 FIS3 开发团队不够可靠。所以，大部分开发者宁愿使用火热的技术，解决问题即可，而不想使用一个看似复杂而有风险的工具。
 
 
-关于该构建方案更详细的技术博客，敬请移步 [杨子聪的个人博客](http://www.yangzicong.com/article/12)。
+关于该构建方案更详细的技术博客，敬请移步 [杨子聪的个人博客](http://www.yangzicong.com/article/13)。
