@@ -7,7 +7,7 @@
 目前没有实现脚手架工具，暂时需要手动 copy 项目源码到本地。
 
 ## smart-modularity-fis3 能力
-1.** 纯前端模板编译构建**。通过继承 layout 模板，我们只需要编写每个页面的私有部分，框架会自动构建出 HTML。
+1. **纯前端模板编译构建**。通过继承 layout 模板，我们只需要编写每个页面的私有部分，框架会自动构建出 HTML。
 2. **vue 组件同名资源自动依赖**。每个文件夹就是一个组件，每个组件的 `.js`、`.tpl`（vue template）、`.scss`文件会自动加入依赖，不需要显式依赖。
 3. **smart scope（智能命名空间）**。针对每个 vue 组件文件（js、tpl、scss），我编写了一个预处理脚本，用以将文件中的 SCOPE 占位符替换为唯一标识的组件id，这样在进行组件开发时我们就不需要花时间在思考命名和防止命名空间的冲突上。我们采用 BEM 命名规则，SCOPE 替代了 Block 部分。
 4. **CSS3 autoprefixer**。CSS3 浏览器前缀补齐，借助 fis3 的社区插件实现。
@@ -254,10 +254,10 @@ module.exports = Vue.extend({
 }
 ```
 页面引入组件后，视觉效果与 DOM 片段如下：
-![](https://github.com/gisonyeung/smart-modularity-fis3/git-image/demo1.png)
+![](https://github.com/gisonyeung/smart-modularity-fis3/readme-image/demo1.png)
 
 DOM：
-![](https://github.com/gisonyeung/smart-modularity-fis3/git-image/demo2.png)
+![](https://github.com/gisonyeung/smart-modularity-fis3/readme-image/demo2.png)
 
 SCSS 文件会自动依赖到同名 vue 组件中，而文件中的 SCOPE 占位符会被自动替换成以组件 ID 为标识的字符串。
 
@@ -287,7 +287,7 @@ fis.match('(*).{png,jepg,jpg,webp,gif}', {
 });
 ```
 在最后构建出来的 HTML 文件中，对这个图片的资源引用就会自动被修改：
-![](https://github.com/gisonyeung/smart-modularity-fis3/git-image/demo3.png)
+![](https://github.com/gisonyeung/smart-modularity-fis3/readme-image/demo3.png)
 
 引用 FIS3 官网上对于资源定位的一段介绍：
 
@@ -297,7 +297,7 @@ fis.match('(*).{png,jepg,jpg,webp,gif}', {
 在资源定位能力的基础上，FIS3 让我们可以很方便地根据需求做一些资源合并、资源压缩和 hash 操作。例如，我们可以规定当前页面上全部或部分`css`与`js`文件各自合并成一个 bundle，在规定 bundle 产出路径以后，FIS3 会自动替换掉页面上对于这些文件的引用。
 
 例如，在开发环境下，我们的 HTML 文件引用如下：
-![](https://github.com/gisonyeung/smart-modularity-fis3/git-image/demo4.png)
+![](https://github.com/gisonyeung/smart-modularity-fis3/readme-image/demo4.png)
 
 我们目前在缓存粒度和 HTTP 请求数两者的折衷中做的打包方案是：每个页面通用的几个 lib 文件打包成一个 lib.bundle，其他文件以页面为纬度按文件类型打包。
 
@@ -335,7 +335,7 @@ fis3.match('src/views/lib/**/**.js', {
 ```
 
 最后，看到生产环境的 HTML 页面引用如下：
-![](https://github.com/gisonyeung/smart-modularity-fis3/git-image/demo5.png)
+![](https://github.com/gisonyeung/smart-modularity-fis3/readme-image/demo5.png)
 
 
 ### 一些其他的基本点
