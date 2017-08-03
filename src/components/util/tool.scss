@@ -7,6 +7,20 @@ $themeColor: #13bbfa;
     -o-transition: $obj $time $type;
 }
 
+@mixin bgsize($width, $height) {
+	display: inline-block;
+	height: 0;
+	width: $width;
+	padding-top: $height;
+	text-indent: -9999px;
+	overflow: hidden;
+	background-size: $width, $height!important;
+}
+
+@mixin bgimg($url) {
+	background: url($url) transparent no-repeat center top;
+}
+
 %clearfix {
     &:before, &:after {
         content: '';

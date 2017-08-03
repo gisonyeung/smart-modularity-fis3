@@ -1,3 +1,3 @@
 module.exports = Vue.extend({
-    template: __inline('./header.tpl'),
+  template: __inline('./header.tpl'),
 });

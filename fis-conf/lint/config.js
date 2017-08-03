@@ -1,3 +1,8 @@
+/*
+ * eslint 规则配置
+ * created by gisonyang on 2017/07/29
+ */
+
 // 需要检查的目录
 var roots = [
     'src/components',
@@ -21,7 +26,7 @@ var globals = {
         'define',
         'require',
     ],
-    // 服务端
+    // 服务端，给未来需要部署 node 代理服务器预留接口
     // server: [
     //     'Promise',
     // ],
