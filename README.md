@@ -6,69 +6,21 @@
 ## 安装
 目前没有实现脚手架工具，暂时需要手动 copy 项目源码到本地。
 
-## smart-modularity-fis3 能力
-1. **纯前端模板编译构建**。通过继承 layout 模板，我们只需要编写每个页面的私有部分，在构建时会自动 HTML。
-2. **vue 组件同名资源自动依赖**。每个组件就是一个文件夹，每个组件的三类文件`*.js`、`*.tpl`（vue template）、`*.scss`会自动相互依赖，不需要显式依赖。
-3. **smart scope（智能命名空间）**。针对每个 vue 组件文件（js、tpl、scss），我编写了一个预处理脚本，用以将文件中的 SCOPE 占位符替换为唯一标识的组件 ID，这样在进行组件开发时我们就不需要花时间在思考命名和防止命名空间的冲突上。我们采用 BEM 命名规则，SCOPE 占位符替代了 Block 部分。
-4. **CSS3 autoprefixer**。CSS3 浏览器前缀补齐，借助 FIS3 的社区插件实现。
-5. **eslint**。我编写了一份适配于 FIS3 的编译脚本以及比较完善的 lint 校验配置。
-6. **资源定位**。借助 FIS3 的能力，我们可以规定每类文件甚至每个文件的产出路径，在构建时 FIS3 会自动修改其他文件对于这些资源的引用路径，这样我们开发时只需要关注源码路径即可。
-7. **资源合并**。在产出生产环境包时，当前的合并规则是：每个页面通用的 lib 文件合成一个 js 文件，其他文件以页面纬度分别进行合并（filename.js、filename.css）。
-8. **dev watch + livereload**。文件监听，增量编译，热刷新。
-9. **组件按需加载**。通过构建时创建资源依赖表，真正做到按需加载。
-10. 剩下的一些通用特性，如生产环境添加哈希值，压缩，es6 编译，打包离线包等等都有相关实现。
-
-## 目录规范
+全局安装 fis3
 ```
-smart-modularity-fis3
-├── fis-conf // fis 辅助配置文件
-│   ├── lint // lint 规则配置
-│   │   ├── config.js
-│   │   └── index.js
-│   ├──eslint.js // 适配 fis3 的 lint 编译脚本
-│   ├── release-config.js // 产出目录配置
-│   ├── smart-scope.js // 智能作用域实现脚本
-│   └── tpl-base-url.js // 模板资源路径转换脚本
-│
-├── src
-│   ├── components // 组件
-│   │   ├── component // 全局组件
-│   │   │   └── header
-│   │   │        ├── header.js
-│   │   │        ├── header.scss
-│   │   │        └── header.tpl
-│   │   ├── pages // 页面入口组件
-│   │   │   └── home
-│   │   │         ├── tab
-│   │   │         │   ├── tab.js
-│   │   │         │   ├── tab.scss
-│   │   │         │   └── tab.tpl
-│   │   │         ├── home.js
-│   │   │         ├── home.scss
-│   │   │         └── home.tpl
-│   │   ├── image // 媒体文件
-│   │   └── util // 存放工具文件，如 js、tool.scss
-│   └── views // 视图文件
-│        ├── pages // 页面模板文件
-│        │   ├── layout
-│        │   │   ├── layout.scss
-│        │   │   └── layout.swig
-│        │   └── home
-│        │        └── home.swig
-│        └── lib // 页面 lib 文件
-│
-├── fis-conf.js // fis3 配置文件
-└── package.json
+$ npm install fis3 -g
 ```
-* `fis-conf`：存放 FIS3 相关的配置文件
-* `src/components`：存放 vue 组件文件。
-* `src/components/component`：存放全局组件。
-* `src/components/pages`：存放页面入口组件与页面私有组件。
-* `src/components/util`：存放组件通用的工具文件，如` util.js`、`tool.scss`。
-* `src/views`：存放视图模板文件。
 
 ## 开发构建命令
-开发时开启 watch + livereload：
+
+第一步，开启静态服务器：
+```
+$ npm run server-start
+// 或
+$ fis3 server start
+```
+
+第二步，开启 watch + livereload：
 ```
 $ npm run watch
 // 或
@@ -79,14 +31,6 @@ $ fis3 release -wclL
 * `c`=>`clean` 清除缓存；
 * `l`=>`lint` lint 校验；
 * `L`=>`livereload` 自动刷新。
-
-开启静态服务器：
-```
-$ npm run server-start
-// 或
-$ fis3 server start
-```
-
 
 ## 开发流程及构建原理介绍
 当我们需要开发一个新页面时，我们要做的事情非常简单，只需两步。假设我们要新建一个名为`home.html`的新页面：
@@ -162,6 +106,67 @@ exports.init = function (el) {
 **所以在 Swig 模板文件中，我们可以很方便地依赖`src/components`中的组件模块，而不需要显式注入 script 的引用。**
 
 另外在`src/components`中创建组件时，我们只需要把关注点放在模块自身的编写上即可，构建工具会完成模块在资源表上的注册。
+
+## smart-modularity-fis3 能力
+1. **纯前端模板编译构建**。通过继承 layout 模板，我们只需要编写每个页面的私有部分，在构建时会自动 HTML。
+2. **vue 组件同名资源自动依赖**。每个组件就是一个文件夹，每个组件的三类文件`*.js`、`*.tpl`（vue template）、`*.scss`会自动相互依赖，不需要显式依赖。
+3. **smart scope（智能命名空间）**。针对每个 vue 组件文件（js、tpl、scss），我编写了一个预处理脚本，用以将文件中的 SCOPE 占位符替换为唯一标识的组件 ID，这样在进行组件开发时我们就不需要花时间在思考命名和防止命名空间的冲突上。我们采用 BEM 命名规则，SCOPE 占位符替代了 Block 部分。
+4. **CSS3 autoprefixer**。CSS3 浏览器前缀补齐，借助 FIS3 的社区插件实现。
+5. **eslint**。我编写了一份适配于 FIS3 的编译脚本以及比较完善的 lint 校验配置。
+6. **资源定位**。借助 FIS3 的能力，我们可以规定每类文件甚至每个文件的产出路径，在构建时 FIS3 会自动修改其他文件对于这些资源的引用路径，这样我们开发时只需要关注源码路径即可。
+7. **资源合并**。在产出生产环境包时，当前的合并规则是：每个页面通用的 lib 文件合成一个 js 文件，其他文件以页面纬度分别进行合并（filename.js、filename.css）。
+8. **dev watch + livereload**。文件监听，增量编译，热刷新。
+9. **组件按需加载**。通过构建时创建资源依赖表，真正做到按需加载。
+10. 剩下的一些通用特性，如生产环境添加哈希值，压缩，es6 编译，打包离线包等等都有相关实现。
+
+## 目录规范
+```
+smart-modularity-fis3
+├── fis-conf // fis 辅助配置文件
+│   ├── lint // lint 规则配置
+│   │   ├── config.js
+│   │   └── index.js
+│   ├──eslint.js // 适配 fis3 的 lint 编译脚本
+│   ├── release-config.js // 产出目录配置
+│   ├── smart-scope.js // 智能作用域实现脚本
+│   └── tpl-base-url.js // 模板资源路径转换脚本
+│
+├── src
+│   ├── components // 组件
+│   │   ├── component // 全局组件
+│   │   │   └── header
+│   │   │        ├── header.js
+│   │   │        ├── header.scss
+│   │   │        └── header.tpl
+│   │   ├── pages // 页面入口组件
+│   │   │   └── home
+│   │   │         ├── tab
+│   │   │         │   ├── tab.js
+│   │   │         │   ├── tab.scss
+│   │   │         │   └── tab.tpl
+│   │   │         ├── home.js
+│   │   │         ├── home.scss
+│   │   │         └── home.tpl
+│   │   ├── image // 媒体文件
+│   │   └── util // 存放工具文件，如 js、tool.scss
+│   └── views // 视图文件
+│        ├── pages // 页面模板文件
+│        │   ├── layout
+│        │   │   ├── layout.scss
+│        │   │   └── layout.swig
+│        │   └── home
+│        │        └── home.swig
+│        └── lib // 页面 lib 文件
+│
+├── fis-conf.js // fis3 配置文件
+└── package.json
+```
+* `fis-conf`：存放 FIS3 相关的配置文件
+* `src/components`：存放 vue 组件文件。
+* `src/components/component`：存放全局组件。
+* `src/components/pages`：存放页面入口组件与页面私有组件。
+* `src/components/util`：存放组件通用的工具文件，如` util.js`、`tool.scss`。
+* `src/views`：存放视图模板文件。
 
 
 关于该构建方案更详细的技术博客，敬请移步 [杨子聪的个人博客](http://www.yangzicong.com/article/13)。
