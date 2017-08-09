@@ -13,8 +13,6 @@ var ss = require('./fis-conf/smart-scope');
 // swig 模板资源路径预处理器
 var addBaseUrl = require('./fis-conf/tpl-base-url');
 
-// fis.require('parser-babel6').parser = require('babel-core');
-
 // hook 插件，添加模块化支持
 // npm install [-g] fis3-hook-module
 fis.hook('module', {
@@ -34,6 +32,7 @@ fis.set('project.ignore',[
     '*.log',
     '.eslintrc',
     '.gitignore',
+    'test/**'
 ]);
 
 //components下面的所有js资源都是组件化资源
@@ -61,6 +60,52 @@ fis.match('(*).swig', {
 fis.match('**/layout.swig', {
     release: false
 });
+
+fis.match('*.vue', {
+    isMod: true,
+    rExt: 'js',
+    useSameNameRequire: true,
+    parser: fis.plugin('vue-component', {
+        // vue@2.x runtimeOnly 
+        runtimeOnly: true,          // vue@2.x 有runtimeOnly模式，为ture时，template会在构建时转为render方法 
+        // styleNameJoin 
+        styleNameJoin: '',          // 样式文件命名连接符 `component-xx-a.css` 
+        extractCSS: true,           // 是否将css生成新的文件, 如果为false, 则会内联到js中 
+        // css scoped 
+        cssScopedIdPrefix: '_v-',   // hash前缀：_v-23j232jj 
+        cssScopedHashType: 'sum',   // hash生成模式，num：使用`hash-sum`, md5: 使用`fis.util.md5` 
+        cssScopedHashLength: 8,     // hash 长度，cssScopedHashType为md5时有效 
+        cssScopedFlag: '__vuec__',  // 兼容旧的ccs scoped模式而存在，此例子会将组件中所有的`__vuec__`替换为 `scoped id`，不需要设为空 
+    }),
+    postprocessor: ss.vue
+});
+
+fis.match('*.vue:js', {
+    isMod: true,
+    rExt: 'js',
+    useSameNameRequire: true,
+    lint: require('./fis-conf/eslint.js'),
+    parser: fis.plugin('babel'),
+});
+
+
+
+fis.match('*.vue:scss', {
+    // fis-parser-node-sass 插件进行解析
+    // npm install [-g] fis3-parser-node-sass
+    parser: fis.plugin('node-sass'),
+    // CSS3 自动前缀
+    preprocessor : fis.plugin("autoprefixer",{
+        "browsers": ["Android >= 2.1", "iOS >= 4", "ie >= 8", "firefox >= 15"],
+        "cascade": true,
+    }),
+    // smart scope
+    postprocessor: ss.css,
+    isCssLike: true,
+    // .scss 文件后缀构建后被改成 .css 文件
+    rExt: '.css',
+});
+
 
 // [css] *.scss => *.css
 fis.match('*.scss', {

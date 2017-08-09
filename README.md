@@ -22,7 +22,7 @@ $ fis3 server start
 
 第二步，开启 watch + livereload：
 ```
-$ npm run watch
+$ npm run dev
 // 或
 $ fis3 release -wclL
 ```

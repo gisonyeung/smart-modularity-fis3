@@ -35,6 +35,19 @@ exports.js = extend(function () {
     })
 })
 
+exports.vue = extend(function () {
+    var that = this
+    var re = new RegExp(scopePlaceholder + '(?:\\(([^\\)]*)\\))?', 'g')
+    return this.content.replace(/staticClass\:"([^"]+)"/g, function (m, classList) {
+        return 'staticClass:"' + classList.replace(re, function (m, p1) {
+            return that.replace(p1)
+        }) + '"'
+    })
+
+})
+
+
+
 function extend(fn) {
     return function (content, file) {
         var path =  file.toString().replace(fis.project.getProjectPath() + '/', '').replace(componentsRe, '').replace(/\/[^\/]+$/, '')

@@ -4,7 +4,11 @@
   <v-tab
     :activePanel="activePanel"
   ></v-tab>
-  <div class="SCOPE_content">
+  <v-loading
+    v-if="isLoading === true"
+    :marginTop="25"
+  ></v-loading>
+  <div v-else class="SCOPE_content">
     <div 
       class="SCOPE_part"
       v-if="activePanel == 1"
@@ -15,7 +19,9 @@
       class="SCOPE_part"
       v-if="activePanel == 2"
     >
-      <v-empty text="暂无视频数据" ></v-empty>
+      <v-empty 
+        text="暂无视频数据" 
+      ></v-empty>
     </div>
     <div 
       class="SCOPE_part"
