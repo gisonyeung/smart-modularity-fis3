@@ -23,7 +23,6 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.4",
     "eslint": "^4.3.0",
-    "extract-text-webpack-plugin": "^3.0.0",
     "fis-optimizer-html-minifier": "0.0.9",
     "fis-parser-node-sass": "^1.0.1",
     "fis-parser-swig2": "^1.0.4",
