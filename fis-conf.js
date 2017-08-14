@@ -12,6 +12,7 @@ var ss = require('./fis-conf/smart-scope');
 
 // swig 模板资源路径预处理器
 var addBaseUrl = require('./fis-conf/tpl-base-url');
+var baseUrl = 'src/views';
 
 // hook 插件，添加模块化支持
 // npm install [-g] fis3-hook-module
@@ -50,7 +51,7 @@ fis.match("*.tpl", {
 // [html] *.swig => *.html
 fis.match('(*).swig', {
     parser: fis.plugin('swig2', {tagControls: ['{%', '%}']}),
-    preprocessor: addBaseUrl('src/views/pages'), // swig 模板执行 extends 语句时不会进行资源定位，所以需要自己写一个预处理器
+    preprocessor: addBaseUrl(baseUrl), // swig 模板执行 extends 语句时不会进行资源定位，所以需要自己写一个预处理器
     rExt: '.html',
     isHtmlLike: true,
     useCache: false,
