@@ -26,6 +26,8 @@ exports.css = extend(function () {
     })
 })
 
+
+
 exports.js = extend(function () {
     var that = this
     var re = new RegExp(scopePlaceholder + '(?:\\((?:\'([^\\)]*)\')?\\))', 'g')
@@ -35,16 +37,31 @@ exports.js = extend(function () {
     })
 })
 
-exports.vue = extend(function () {
+exports.vue_tpl = extend(function () {
     var that = this
     var re = new RegExp(scopePlaceholder + '(?:\\(([^\\)]*)\\))?', 'g')
-    return this.content.replace(/staticClass\:"([^"]+)"/g, function (m, classList) {
-        return 'staticClass:"' + classList.replace(re, function (m, p1) {
-            return that.replace(p1)
-        }) + '"'
-    })
-
+    return this.content
+        .replace(/staticClass\:"([^"]+)"/g, function (m, classList) {
+            return 'staticClass:"' + classList.replace(re, function (m, p1) {
+                return that.replace(p1)
+            }) + '"'
+        })
+        .replace(/class:\{([^\}]+)\}/g, function (m, classList) {
+            var reg = new RegExp('[\'\"]?('+ scopePlaceholder +')([a-zA-Z0-9\-_]+)?[\'\"]?', 'g');
+            return 'class:{' + classList.replace(reg, function(m, $1, $2) {
+                return "'" + that.replace() + ($2 || '') + "'";
+            }) + '}'
+        })
 })
+
+exports.vue_js = extend(function () {
+    var that = this;
+    var reg = new RegExp('[\'\"]?('+ scopePlaceholder +')([a-zA-Z0-9\-_]+)?[\'\"]?', 'g');
+    return this.content.replace(reg, function(m, $1, $2) {
+        return '"' + that.replace() + ($2 || '') + '"';
+    })
+})
+
 
 
 

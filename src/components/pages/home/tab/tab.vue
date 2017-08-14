@@ -15,16 +15,9 @@
 var vBus = require('../../../util/vBus');
 
 export default {
-  props: ['activePanel'],
-  data: function() {
-    return {
-      items: [
-        { key: 1, name: '看点' },
-        { key: 2, name: '视频' },
-        { key: 3, name: '关注' },
-        { key: 4, name: '我的' },
-      ]
-    }
+  props: ['activePanel', 'items'],
+  data() {
+    return {}
   },
   methods: {
     toggleTab(key) {

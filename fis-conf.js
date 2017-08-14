@@ -77,7 +77,7 @@ fis.match('*.vue', {
         cssScopedHashLength: 8,     // hash 长度，cssScopedHashType为md5时有效 
         cssScopedFlag: '__vuec__',  // 兼容旧的ccs scoped模式而存在，此例子会将组件中所有的`__vuec__`替换为 `scoped id`，不需要设为空 
     }),
-    postprocessor: ss.vue
+    postprocessor: ss.vue_tpl
 });
 
 fis.match('*.vue:js', {
@@ -86,6 +86,7 @@ fis.match('*.vue:js', {
     useSameNameRequire: true,
     lint: require('./fis-conf/eslint.js'),
     parser: fis.plugin('babel'),
+    preprocessor: ss.vue_js,
 });
 
 

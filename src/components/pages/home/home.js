@@ -14,6 +14,12 @@ exports.init = function (el) {
       activePanel: 1,
       isLoading: false,
       timerId: null,
+      panels: [
+        { key: 1, name: '看点', emptyName: '看点' },
+        { key: 2, name: '视频', emptyName: '视频' },
+        { key: 3, name: '关注', emptyName: '关注' },
+        { key: 4, name: '我的', emptyName: '个人' },
+      ]
     },
     components: {
       'v-header': header,
@@ -32,10 +38,10 @@ exports.init = function (el) {
         }, 500);
       });
     },
-    beforeMount: function() {
-    },
-    mounted: function() {
-      
+    methods: {
+      goback() {
+        alert('goback');
+      },
     }
   });
 

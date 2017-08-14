@@ -21,6 +21,12 @@ $themeColor: #13bbfa;
 	background: url($url) transparent no-repeat center top;
 }
 
+@mixin bgimg_center($url) {
+    background: url($url) transparent no-repeat center center;
+}
+
+
+
 %clearfix {
     &:before, &:after {
         content: '';

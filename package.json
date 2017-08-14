@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "release": "fis3 release",
-    "dev": "fis3 release -wcLl",
+    "dev": "fis3 server start && fis3 release -wcLl",
     "server-open": "fis3 server open",
     "server-start": "fis3 server start",
     "server-stop": "fis3 server stop",
