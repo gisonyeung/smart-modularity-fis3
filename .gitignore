@@ -1,7 +1,4 @@
 node_modules
 dist
 offline
-.jshintignore
-.jshintrc
-.eslintrc
 test/unit/coverage
